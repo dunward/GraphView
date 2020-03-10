@@ -12,16 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f6c547c6c35ed4986dc65b885e82b2, type: 3}
   m_Name: GraphNode
   m_EditorClassIdentifier: 
-  Node:
-    GUID: 
-    Name: GraphNode
-    Port:
-      IO: -1
-      inputs:
-      - name: x
-        type: 0
-      - name: y
-        type: 0
-      outputs:
-      - name: o
-        type: 0
+  GUID: 
+  Name: GraphNode
+  Port:
+    IO: -1
+    inputs:
+    - name: x
+      type: 0
+    - name: y
+      type: 0
+    outputs:
+    - name: o
+      type: 0

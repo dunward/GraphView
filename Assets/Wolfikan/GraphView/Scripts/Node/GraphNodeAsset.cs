@@ -4,9 +4,11 @@ using UnityEngine;
 
 namespace Wolfikan.GraphView
 {
-    [CreateAssetMenu(fileName = "GraphNode", menuName = "Wolfikan/Create GraphNode")]
+    [CreateAssetMenu(fileName = "GraphNode", menuName = "Wolfikan/Create GraphNode"), System.Serializable]
     public class GraphNodeAsset : ScriptableObject
     {
-        public GraphNode Node;
+        [HideInInspector] public string GUID;
+        public string Name;
+        public GraphPort Port;
     }
 }

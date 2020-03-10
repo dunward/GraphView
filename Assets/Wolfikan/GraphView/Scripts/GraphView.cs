@@ -24,24 +24,31 @@ namespace Wolfikan.GraphView
 			Insert(0, grid);
 			grid.StretchToParentSize();
 
-            // AddElement(GenerateGraphNode());
+            AddElement(GenerateGraphNode());
 		}
 
         private GraphNode GenerateGraphNode()
         {
-            var node = Resources.Load<GraphNodeAsset>("GraphNode").Node;
+            var asset = Resources.Load<GraphNodeAsset>("GraphNode");
 
+            GraphNode node = new GraphNode(asset);
+
+            node.title = node.Name;
             node.GUID = GUID.Generate().ToString();
 
-            //foreach (var input in node.Port.inputs)
-            //{
-            //    node.inputContainer.Add(GeneratePort(node, UnityGraph.Direction.Input, UnityGraph.Port.Capacity.Single, input.Type));
-            //}
+            foreach (var input in node.Port.inputs)
+            {
+                var port = GeneratePort(node, UnityGraph.Direction.Input, UnityGraph.Port.Capacity.Single, input.Type);
+                port.portName = input.Name;
+                node.inputContainer.Add(port);
+            }
 
-            //foreach (var output in node.Port.outputs)
-            //{
-            //    node.outputContainer.Add(GeneratePort(node, UnityGraph.Direction.Input, UnityGraph.Port.Capacity.Multi, output.Type));
-            //}
+            foreach (var output in node.Port.outputs)
+            {
+                var port = GeneratePort(node, UnityGraph.Direction.Output, UnityGraph.Port.Capacity.Multi, output.Type);
+                port.portName = output.Name;
+                node.outputContainer.Add(port);
+            }
 
             node.RefreshExpandedState();
             node.RefreshPorts();
