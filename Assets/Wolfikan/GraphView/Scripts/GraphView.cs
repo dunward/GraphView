@@ -11,9 +11,12 @@ namespace Wolfikan.GraphView
     public class GraphView : UnityGraph.GraphView
     {
         private SearchProvider provider;
+        private GraphWindow graphWindow;
 
-        public GraphView()
+        public GraphView(GraphWindow graphWindow)
         {
+            this.graphWindow = graphWindow;
+
             SetupZoom(UnityGraph.ContentZoomer.DefaultMinScale, UnityGraph.ContentZoomer.DefaultMaxScale);
 
 			this.AddManipulator(new UnityGraph.ContentDragger());
@@ -24,16 +27,24 @@ namespace Wolfikan.GraphView
 			Insert(0, grid);
 			grid.StretchToParentSize();
 
-            AddElement(GenerateGraphNode());
+            provider = ScriptableObject.CreateInstance<SearchProvider>();
+            provider.Initialize(this, graphWindow);
+
+            nodeCreationRequest = (evt) =>
+            {
+                UnityGraph.SearchWindow.Open(new UnityGraph.SearchWindowContext(evt.screenMousePosition), provider);
+            };
+
+            // AddElement(GenerateGraphNode());
 		}
 
-        private GraphNode GenerateGraphNode()
+        public void AddGraphNode(GraphNodeAsset asset, Vector2 position)
         {
-            var asset = Resources.Load<GraphNodeAsset>("GraphNode");
-
             GraphNode node = new GraphNode(asset);
 
             node.title = node.Name;
+            node.SetPosition(new Rect(position, Vector2.zero));
+
             node.GUID = GUID.Generate().ToString();
 
             foreach (var input in node.Port.inputs)
@@ -53,7 +64,7 @@ namespace Wolfikan.GraphView
             node.RefreshExpandedState();
             node.RefreshPorts();
 
-            return node;
+            AddElement(node);
         }
 
         private UnityGraph.Port GeneratePort(GraphNode node, UnityGraph.Direction direction, UnityGraph.Port.Capacity capacity, Type type)

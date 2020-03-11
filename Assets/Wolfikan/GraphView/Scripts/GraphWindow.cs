@@ -20,7 +20,7 @@ namespace Wolfikan.GraphView
 
         private void OnEnable()
         {
-            graphView = new GraphView()
+            graphView = new GraphView(this)
             {
                 name = "Graph View",
             };
