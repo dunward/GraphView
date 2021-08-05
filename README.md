@@ -6,3 +6,6 @@
 ## Todo
 - [x] Create Custom GraphNode using ScriptableObject
 - [ ] GraphNodeAsset Custom Inspector
+
+
+This repository is archived. Delveop is progressing in [here](https://github.com/weisswolfi/nilx)
